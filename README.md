@@ -71,9 +71,9 @@ Indexes for noobs
 
 >>> a = [1,2]
 >>> a.index(1)
-1
+0
 >>> a.index(2)
-2
+1
 >>> a[a.index(1)]
 1
 >>> a[a.index(2)]
@@ -93,7 +93,7 @@ Woaaaa! WTF is happening here? Easy: we are forgetting that everything must be e
 >>> a
 [2, 2]
 >>> a.index(2)
-1
+0
 >>> a[a.index(2)] = 1
 >>> a
 [1, 2]
