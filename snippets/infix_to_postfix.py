@@ -1,21 +1,22 @@
 class Stack:
-     def __init__(self):
-         self.items = []
 
-     def isEmpty(self):
-         return self.items == []
+    def __init__(self):
+        self.items = []
 
-     def push(self, item):
-         self.items.append(item)
+    def isEmpty(self):
+        return self.items == []
 
-     def pop(self):
-         return self.items.pop()
+    def push(self, item):
+        self.items.append(item)
 
-     def peek(self):
-         return self.items[-1]
+    def pop(self):
+        return self.items.pop()
 
-     def size(self):
-         return len(self.items)
+    def peek(self):
+        return self.items[-1]
+
+    def size(self):
+        return len(self.items)
 
 
 def infixToPostfix(infixexpr):
@@ -41,13 +42,12 @@ def infixToPostfix(infixexpr):
                 topToken = opStack.pop()
         else:
             while not opStack.isEmpty() and prec[opStack.peek()] >= prec[token]:
-                  postfixList.append(opStack.pop())
+                postfixList.append(opStack.pop())
             opStack.push(token)
 
     while not opStack.isEmpty():
         postfixList.append(opStack.pop())
     return " ".join(postfixList)
-
 
 
 print(infixToPostfix("A * B + C * D"))
