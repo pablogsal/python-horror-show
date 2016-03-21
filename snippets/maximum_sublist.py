@@ -14,20 +14,21 @@ def mssl(iterable):
     best_initial_index = 0
     current_initial_index = 0
 
-    for i, value in enumerate( iterable ):
+    for i, value in enumerate(iterable):
 
         if current_sum + value > 0:
             current_sum += value
         else:
             # We have found a breaking point in our array. Adding values before this point
-            # to subarrays formed after this point is useless because the sum will be lower.
+            # to subarrays formed after this point is useless because the sum
+            # will be lower.
             current_initial_index = i + 1
             current_sum = 0
 
         if current_sum > best_sum:
             best_sum = current_sum
             best_initial_index = current_initial_index
-            best_final_index = i+1
+            best_final_index = i + 1
 
     return iterable[best_initial_index:best_final_index], best_sum
 

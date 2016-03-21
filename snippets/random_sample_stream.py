@@ -3,9 +3,9 @@
 
 import random
 import time
-from tqdm import tqdm # For progress bar
+from tqdm import tqdm  # For progress bar
 
-stream = (random.randint(0,100) for _ in range(1000))
+stream = (random.randint(0, 100) for _ in range(1000))
 
 # Supose we have a reservoir of s=10 elements
 
@@ -44,7 +44,7 @@ for element in tqdm(stream):
     # Simulate latency
     time.sleep(0.005)
 
-    x = random.randint(0,s)
+    x = random.randint(0, s)
     if x < s:
         reservoir[x] = element
 

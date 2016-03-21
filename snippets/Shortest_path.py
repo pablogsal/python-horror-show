@@ -1,16 +1,18 @@
 import collections
 
 
-def from_id_width(id, *, width):
+def from_id_width(id, width):
     return (id % width, id // width)
 # data from main article
-DIAGRAM1_WALLS = [from_id_width(id, width=30) for id in [21,22,51,52,81,82,93,94,111,112,123,124,133,134,141,142,153,154,163,164,171,172,173,174,175,183,184,193,194,201,202,203,204,205,213,214,223,224,243,244,253,254,273,274,283,284,303,304,313,314,333,334,343,344,373,374,403,404,433,434]]
+DIAGRAM1_WALLS = [from_id_width(id, width=30) for id in [21, 22, 51, 52, 81, 82, 93, 94, 111, 112, 123, 124, 133, 134, 141, 142, 153, 154, 163, 164, 171, 172, 173, 174, 175,
+                                                         183, 184, 193, 194, 201, 202, 203, 204, 205, 213, 214, 223, 224, 243, 244, 253, 254, 273, 274, 283, 284, 303, 304, 313, 314, 333, 334, 343, 344, 373, 374, 403, 404, 433, 434]]
 
 
-
-# We use a deque because we need the last element that we have added to de Queue
+# We use a deque because we need the last element that we have added to de
+# Queue
 
 class Queue:
+
     def __init__(self):
         self.elements = collections.deque()
 
@@ -23,10 +25,11 @@ class Queue:
     def get(self):
         return self.elements.popleft()
 
-###############################################################################################
+##########################################################################
 
 
 class SquareGrid():
+
     def __init__(self, width, height):
         self.width = width
         self.height = height
@@ -42,36 +45,46 @@ class SquareGrid():
     def neighbors(self, id):
         # Very elegant way to yield neightbours !!!!!!!!
         (x, y) = id
-        results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
+        results = [(x + 1, y), (x, y - 1), (x - 1, y), (x, y + 1)]
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
         yield from results
 
     def _draw_tile(self, id, style, width):
         r = "."
-        if 'number' in style and id in style['number']: r = "%d" % style['number'][id]
+        if 'number' in style and id in style['number']:
+            r = "%d" % style['number'][id]
         if 'point_to' in style and style['point_to'].get(id, None) is not None:
             (x1, y1) = id
             (x2, y2) = style['point_to'][id]
-            if x2 == x1 + 1: r = "\u2192"
-            if x2 == x1 - 1: r = "\u2190"
-            if y2 == y1 + 1: r = "\u2193"
-            if y2 == y1 - 1: r = "\u2191"
-        if 'start' in style and id == style['start']: r = "A"
-        if 'goal' in style and id == style['goal']: r = "Z"
-        if 'path' in style and id in style['path']: r = "@"
-        if id in self.walls: r = "#" * width
+            if x2 == x1 + 1:
+                r = "\u2192"
+            if x2 == x1 - 1:
+                r = "\u2190"
+            if y2 == y1 + 1:
+                r = "\u2193"
+            if y2 == y1 - 1:
+                r = "\u2191"
+        if 'start' in style and id == style['start']:
+            r = "A"
+        if 'goal' in style and id == style['goal']:
+            r = "Z"
+        if 'path' in style and id in style['path']:
+            r = "@"
+        if id in self.walls:
+            r = "#" * width
         return r
 
     def draw(self, width=2, **style):
         for y in range(self.height):
             for x in range(self.width):
-                print("%%-%ds" % width % self._draw_tile( (x, y), style, width), end="")
+                print("%%-%ds" % width %
+                      self._draw_tile((x, y), style, width), end="")
             print()
 
 
-
 class GridWithWeights(SquareGrid):
+
     def __init__(self, width, height):
         super().__init__(width, height)
         self.weights = {}
@@ -87,16 +100,17 @@ class GridWithWeights(SquareGrid):
 import heapq
 import itertools
 
+
 class PriorityQueue(list):
 
-    def __init__(self,iterable=None):
+    def __init__(self, iterable=None):
 
         self.entries = dict()
         self.counter = itertools.count()
 
         if iterable is not None:
             for item in iterable:
-               self.put(*iterable)
+                self.put(*item)
 
     def remove(self, key):
         entry = self.entries.pop(key)
@@ -107,9 +121,9 @@ class PriorityQueue(list):
         if item in self.entries:
             self.remove(item)
 
-        entry =  [priority,next(self.counter), item]
+        entry = [priority, next(self.counter), item]
         self.entries[item] = entry
-        heapq.heappush(self,entry)
+        heapq.heappush(self, entry)
 
     def get(self):
 
@@ -118,7 +132,6 @@ class PriorityQueue(list):
             if next_item is not None:
                 del self.entries[next_item]
                 return next_item
-
 
         raise KeyError('Pop from an empty priority queue')
 
@@ -157,6 +170,7 @@ def heuristic(a, b):
     (x2, y2) = b
     return abs(x1 - x2) + abs(y1 - y2)
 
+
 def a_star_search(graph, start, goal):
     frontier = PriorityQueue()
     frontier.put(start, 0)
@@ -181,8 +195,8 @@ def a_star_search(graph, start, goal):
                 frontier.put(candidate, priority)
                 came_from[candidate] = current
 
-
     return came_from, cost_so_far
+
 
 def a_star_search_no_weights(graph, start, goal):
     frontier = PriorityQueue()
@@ -211,6 +225,7 @@ def a_star_search_no_weights(graph, start, goal):
     return came_from, cost_so_far
 
 ####### RECONSTRUCT PATH #########
+
 
 def reconstruct_path(came_from, start, goal):
     current = goal
@@ -241,7 +256,8 @@ if __name__ == '__main__':
 
     diagram4 = GridWithWeights(30, 15)
     diagram4.walls = set(DIAGRAM1_WALLS)
-    came_from, cost_so_far = a_star_search_no_weights(diagram4, (1, 4), (24,3))
-    diagram4.draw(width=3, point_to=came_from, start=(1, 4), goal=(24,3))
+    came_from, cost_so_far = a_star_search_no_weights(
+        diagram4, (1, 4), (24, 3))
+    diagram4.draw(width=3, point_to=came_from, start=(1, 4), goal=(24, 3))
     print()
-    diagram4.draw(width=3, number=cost_so_far, start=(1, 4), goal=(24,3))
+    diagram4.draw(width=3, number=cost_so_far, start=(1, 4), goal=(24, 3))
