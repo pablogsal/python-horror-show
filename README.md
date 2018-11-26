@@ -27,7 +27,7 @@ False
 True
 ```
 
-From [7.2.1, "Plain Integer Objects"](http://docs.python.org/c-api/int.html):
+From ["Integer Objects"](https://docs.python.org/3/c-api/long.html#c.PyLong_FromLong):
 > The current implementation keeps an
 > array of integer objects for all
 > integers between -5 and 256, when you
