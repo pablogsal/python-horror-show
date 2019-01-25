@@ -63,7 +63,6 @@ We can check this thing using the `id` operator:
 
 The brief explanation is that as in Python everything is an object, each time you use a number (integer, float...) **it must be created** so this could be very inefficient. So what Python does is pre-allocate integers from `-5` to `256` because these are often used. The last trick (`a = 300; b = 300`) is interpreter-dependent, but in the basic Python interpreter (among others) as the two assignations occur in the same line both variables will refer to the same object to avoid wasting space.
 
-
 Indexes for noobs
 --------------------
 
@@ -102,7 +101,7 @@ Woaaaa! WTF is happening here? Easy: we are forgetting that everything must be e
 Aha! So the thing is that when we assign `a[a.index(1)] = 2` as `a.index(2)` will give us **the first index in which `2` appears** it gives `1` and therefore `a[a.index(2)] = 1` will reset `a` to its initial value.
 
 Too many equals
---------------------
+---------------
 
 This is one of my favourites:
 
@@ -128,6 +127,56 @@ So the only thing we have to do in order to undo this mess is execute the code f
 {5: ({...}, 5)}
 >>> b
 5
+```
+
+Hashable objects
+----------------
+
+```python
+>>> d = {1: 'a', True: 'b', 1.0: 'c'}
+>>> d
+{1: 'c'}
+```
+
+And... what’s happening here? The answer has already been given: Things must be evaluated sequentially. 
+
+```python
+>>> d = dict()
+>>> d[1] = ‘a’
+>>> d[True] = ‘b’
+>>> d[1.0] = ‘c’
+>>> d
+{1: 'c'}
+```
+
+Ok, but ¿why True is evaluated as 1?
+
+```python
+>>> 1 is True
+False
+
+>>> 1 == True
+True
+```
+
+The reason: any two strings, numbers, etc. that equate will have the same hash, allowing the `dict` (implemented as a hashmap) to find those strings very efficiently. **`dict` keys are equaled on value rather on identity**.
+
+In fact, that’s the same reason why, as a general rule, **we can’t use mutable objects as key in a dictionary**: the hash of a list or another mutable object is not based on it's value, but rather the instance of the list, and changes when its content changes.
+
+The same approach is true when creating sets:
+
+```python
+>>> s = {1, True, 1.0}
+>>> s
+{1}
+```
+
+or using another values as `0` and `None`:
+
+```python
+>>> d2 = {0: 'a', False: 'b'}
+>>> d2
+{0: 'b'}
 ```
 
 Enter the void
