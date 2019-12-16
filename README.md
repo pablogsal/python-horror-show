@@ -171,7 +171,7 @@ The same approach is true when creating sets:
 {1}
 ```
 
-or using another values as `0` and `None`:
+or using another values as `0` and `False`:
 
 ```python
 >>> d2 = {0: 'a', False: 'b'}
