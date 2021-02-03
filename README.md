@@ -232,8 +232,8 @@ Return to childhood
 True
 ```
 
-The value of `x` can be exactly represented by a Python `int`, but not by a Python `float`, which has 52 bits of precision. When `x` is converted from `int` to a `float`, it needs to be rounded to a nearby value. According to the rounding rules, that nearby value is x - 1, which _can_ be represented by a `float`.
+The value of `x` can be exactly represented by a Python `int`, but not by a Python `float`, which has 52 bits of precision. When `x` is converted from `int` to a `float`, it needs to be rounded to a nearby value. According to the rounding rules, that nearby value is `x - 1`, which _can_ be represented by a `float`.
 
-When `x + 1.0` is evaluated, `x` is first converted to a `float` in order to perform the addition. This makes its value x - 1. Then `1.0` is added. This brings the value back up to x, but since the result is a float, it is again rounded down to x - 1.
+When `x + 1.0` is evaluated, `x` is first converted to a `float` in order to perform the addition. This makes its value `x - 1`. Then `1.0` is added. This brings the value back up to x, but since the result is a float, it is again rounded down to `x - 1`.
 
-Next the comparison happens. This is where Python differs from many other languages. In C, for instance, if a `double` is compared to an `int`, the `int` is first converted to a `double`. In this case, that would mean the right-hand side would also be rounded to x - 1, the two sides would be equal, and the `<` comparison would be false. Python, however, has special logic to handle comparison between `float`s and `int`s, and it's able to correctly determine that a `float` with a value of x - 1 is less than an `int` with a value of x.
+Next the comparison happens. This is where Python differs from many other languages. In C, for instance, if a `double` is compared to an `int`, the `int` is first converted to a `double`. In this case, that would mean the right-hand side would also be rounded to `x - 1`, the two sides would be equal, and the `<` comparison would be false. Python, however, has special logic to handle comparison between `float`s and `int`s, and it's able to correctly determine that a `float` with a value of `x - 1` is less than an `int` with a value of x.
