@@ -122,7 +122,7 @@ Hummmmmm.... I think the problem with this is that as soon as we see the double 
 So the only thing we have to do in order to undo this mess is execute the code following this rules as
 ```python
 >>> a, b = {},5
->>> a[b] = {},5 # As a is an empty dic and b=5 this is equivalent to {}[5] = ({},5)
+>>> a[b] = a,5 # As a is an empty dic and b=5 this is equivalent to {}[5] = ({},5)
 >>> a
 {5: ({...}, 5)}
 >>> b
