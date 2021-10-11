@@ -223,6 +223,17 @@ True
 
 Neither the `==` nor the `in` happens first. They're both [comparison operators](https://docs.python.org/3.5/reference/expressions.html#comparisons), with the same precedence, so they're chained. The line is equivalent to `False == False and False in [False]`, which is `True`.
 
+Same thing with the snippet below:
+
+```python
+>>> (True == False) == False
+True
+>>> True == (False == False)
+True
+>>> True == False == False
+False
+```
+
 Return to childhood
 ---------------------------
 
