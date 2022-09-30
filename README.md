@@ -191,7 +191,7 @@ False
 True
 ```
 
-When converted too a bool type, `[]` decay into `False` because it's empty, and `[[]]` becomes `True` since it's not empty. Therefore `all([[]])` is equivalent to `all([False])`, and `all([[[]]])` is the same as `all([True])`. As in `all([])` there is no `False` then is trivially `True`.
+When converted to a bool type, `[]` decay into `False` because it's empty, and `[[]]` becomes `True` since it's not empty. Therefore `all([[]])` is equivalent to `all([False])`, and `all([[[]]])` is the same as `all([True])`. As in `all([])` there is no `False` then is trivially `True`.
 
 Consumed by the `iter` method
 ---------------------------
